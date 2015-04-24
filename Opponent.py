@@ -18,15 +18,20 @@ class Opponent(Ball):
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = self.rect.center)
-        self.maxSpeed = random.randint(1,3)
+        self.maxSpeed = 2.8
         self.kind = "zombie"
+
         
-    def update(self, width, height, playerPos):
-        self.facePlayer(playerPos)
+    def update(*args):
+        self = args[0]
+        width = args[1]
+        height = args[2]
+        playerPos = args[3]
         Ball.update(self, width, height)
         self.animate()
+        self.facePlayer(playerPos)
         self.changed = False
-    
+        
     def facePlayer(self, pt):
         xdiff = pt[0] - self.rect.center[0]
         ydiff = pt[1] - self.rect.center[1]

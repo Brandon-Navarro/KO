@@ -26,7 +26,7 @@ bgRect = bgImage.get_rect()
 
 balls = pygame.sprite.Group()
 players = pygame.sprite.Group()
-opp = pygame.sprite.Group()
+opps = pygame.sprite.Group()
 hudItems = pygame.sprite.Group()
 backgrounds = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
@@ -37,7 +37,7 @@ Player.containers = (all, players)
 BackGround.containers = (all, backgrounds)
 Block.containers = (all, blocks)
 Score.containers = (all, hudItems)
-Opponent.containers = (all, opp)
+Opponent.containers = (all, opps)
 
 
 run = False
@@ -72,7 +72,7 @@ while True:
     BackGround("field.png")
     
     player = Player([width/6, height/2])
-    opp = Opponent([width*6, height/6])
+    opps = [Opponent([width/1.5, height/2]), Opponent([width/1.5, height/1.5]), Opponent([width/3, height/.2]), Opponent([width/1.5, height/4]), Opponent([width/1.5, height/.25]), Opponent([width/1.5, height/5])]
     
     level = Level(size, 50)
     level.loadLevel("1")
@@ -104,7 +104,8 @@ while True:
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     player.go("stop left")
                           
-                          
+        
+        
         if timerWait < timerWaitMax:
             timerWait += 1
         else:
@@ -113,17 +114,17 @@ while True:
         
         playersHitBalls = pygame.sprite.groupcollide(players, balls, False, True)
         ballsHitBalls = pygame.sprite.groupcollide(balls, balls, False, False)
+        playersHitOpponents = pygame.sprite.groupcollide(players, opps, True, False)
         
         for player in playersHitBalls:
             for ball in playersHitBalls[player]:
                 score.increaseScore(1)
         
-        
         for bully in ballsHitBalls:
             for victem in ballsHitBalls[bully]:
                 bully.collideBall(victem)
         
-        all.update(width, height)
+        all.update(width, height, player.rect.center)
         
         dirty = all.draw(screen)
         pygame.display.update(dirty)
