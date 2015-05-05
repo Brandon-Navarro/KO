@@ -119,7 +119,8 @@ while True:
         for player in playersHitBalls:
             for ball in playersHitBalls[player]:
                 score.increaseScore(1)
-        
+
+                
         for bully in ballsHitBalls:
             for victem in ballsHitBalls[bully]:
                 bully.collideBall(victem)
@@ -139,8 +140,7 @@ while True:
         
         
         
-        
-        
+                
         
         
         

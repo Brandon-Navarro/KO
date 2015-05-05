@@ -3,19 +3,23 @@ from Ball import Ball
 
 class Player(Ball):
     def __init__(self, pos):
-        Ball.__init__(self, "images/Player/pballbu.png", [0,0], pos)
-        self.upImages = [pygame.image.load("images/Player/pballru.png"),
-                         pygame.image.load("images/Player/pballgu.png"),
-                         pygame.image.load("images/Player/pballbu.png")]
-        self.downImages = [pygame.image.load("images/Player/pballrd.png"),
-                           pygame.image.load("images/Player/pballgd.png"),
-                           pygame.image.load("images/Player/pballbd.png")]
-        self.leftImages = [pygame.image.load("images/Player/pballrl.png"),
-                           pygame.image.load("images/Player/pballgl.png"),
-                           pygame.image.load("images/Player/pballbl.png")]
-        self.rightImages = [pygame.image.load("images/Player/pballrr.png"),
-                            pygame.image.load("images/Player/pballgr.png"),
-                            pygame.image.load("images/Player/pballbr.png")]
+        Ball.__init__(self, "images/Player/left1.png", [0,0], pos)
+        self.upImages = [pygame.image.load("images/Player/up1.png"),
+                         pygame.image.load("images/Player/up2.png"),
+                         pygame.image.load("images/Player/up3.png"),
+                         pygame.image.load("images/Player/up4.png")]
+        self.downImages = [pygame.image.load("images/Player/down1.png"),
+                           pygame.image.load("images/Player/down2.png"),
+                           pygame.image.load("images/Player/down3.png"),
+                           pygame.image.load("images/Player/down4.png")]
+        self.leftImages =[pygame.image.load("images/Player/left1.png"),
+                           pygame.image.load("images/Player/left2.png"),
+                           pygame.image.load("images/Player/left3.png"),
+                           pygame.image.load("images/Player/left4.png")]
+        self.rightImages = [pygame.image.load("images/Player/right1.png"),
+                           pygame.image.load("images/Player/right2.png"),
+                           pygame.image.load("images/Player/right3.png"),
+                           pygame.image.load("images/Player/right4.png")]
         self.facing = "up"
         self.changed = False
         self.images = self.upImages
@@ -25,7 +29,7 @@ class Player(Ball):
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = self.rect.center)
-        self.maxSpeed = 3
+        self.maxSpeed = 5
             
     def update(*args):
         self = args[0]
@@ -50,7 +54,7 @@ class Player(Ball):
     
     def animate(self):
         if self.waitCount < self.maxWait:
-            self.waitCount += 1
+            self.waitCount += 10
         else:
             self.waitCount = 0
             self.changed = True

@@ -4,12 +4,24 @@ from Ball import Ball
 
 class Opponent(Ball):
     def __init__(self, pos):
-        Ball.__init__(self, "images/Ball/ball.png", [0,0], pos)
-        self.upImages = [pygame.image.load("images/Ball/ball.png"), pygame.image.load("images/Ball/ball.png")]
-        self.downImages = [pygame.image.load("images/Ball/ball.png"), pygame.image.load("images/Ball/ball.png")]
-        self.leftImages = [pygame.image.load("images/Ball/ball.png"), pygame.image.load("images/Ball/ball.png")]
-        self.rightImages = [pygame.image.load("images/Ball/ball.png"), pygame.image.load("images/Ball/ball.png")]
-        self.facing = "up"
+        Ball.__init__(self, "images/Ball/right1.png", [0,0], pos)
+        self.upImages = [pygame.image.load("images/Ball/up1.png"),
+                         pygame.image.load("images/Ball/up1.png"),
+                         pygame.image.load("images/Ball/up1.png"),
+                         pygame.image.load("images/Ball/up1.png")]
+        self.downImages = [pygame.image.load("images/Ball/down1.png"),
+                           pygame.image.load("images/Ball/down1.png"),
+                           pygame.image.load("images/Ball/down1.png"),
+                           pygame.image.load("images/Ball/down1.png")]
+        self.leftImages =[pygame.image.load("images/Ball/up1.png"),
+                           pygame.image.load("images/Ball/left2.png"),
+                           pygame.image.load("images/Ball/left3.png"),
+                           pygame.image.load("images/Ball/left4.png")]
+        self.rightImages = [pygame.image.load("images/Ball/right1.png"),
+                           pygame.image.load("images/Ball/right2.png"),
+                           pygame.image.load("images/Ball/right3.png"),
+                           pygame.image.load("images/Ball/right4.png")]
+        self.facing = "left"
         self.changed = False
         self.images = self.upImages
         self.frame = 0
@@ -37,15 +49,19 @@ class Opponent(Ball):
         ydiff = pt[1] - self.rect.center[1]
         
         if xdiff > 0: #go right
+            self.facing = "right"
             self.speedx = self.maxSpeed
         elif xdiff < 0: #go left
+            self.facing = "left"
             self.speedx = -self.maxSpeed
         else:
             self.speedx = 0
             
         if ydiff > 0: #go down
+            self.facing = "down"
             self.speedy = self.maxSpeed
         elif ydiff < 0: #go up
+            self.facing = "up"
             self.speedy = -self.maxSpeed
         else:
             self.speedy = 0
