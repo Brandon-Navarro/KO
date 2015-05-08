@@ -7,7 +7,8 @@ from Button import Button
 from BackGround import BackGround
 from Level import Level
 from Block import Block
-from Opponent import Opponent
+#from Opponent import Opponent
+#bn
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -37,7 +38,7 @@ Player.containers = (all, players)
 BackGround.containers = (all, backgrounds)
 Block.containers = (all, blocks)
 Score.containers = (all, hudItems)
-Opponent.containers = (all, opps)
+#Opponent.containers = (all, opp)
 
 
 run = False
@@ -72,14 +73,14 @@ while True:
     BackGround("field.png")
     
     player = Player([width/6, height/2])
-    opps = [Opponent([width/1.5, height/2]), Opponent([width/1.5, height/1.5]), Opponent([width/3, height/.2]), Opponent([width/1.5, height/4]), Opponent([width/1.5, height/.25]), Opponent([width/1.5, height/5])]
+   # opp = Opponent([width*6, height/6])
     
     level = Level(size, 50)
     level.loadLevel("1")
 
     timer = Score([80, height - 25], "Time: ", 36)
-    timerWait = 0
-    timerWaitMax = 6
+    timerWait = 1
+    timerWaitMax = 1
 
     score = Score([width-80, height-25], "Score: ", 36)
     while run:
@@ -94,6 +95,12 @@ while True:
                     player.go("down")
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     player.go("left")
+                if event.key == pygame.K_k:
+                    player.go("juke down")
+                if event.key == pygame.K_j:
+                    player.go("juke up")
+                if event.key == pygame.K_i:
+                    player.go("spin up")
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     player.go("stop up")
@@ -103,9 +110,13 @@ while True:
                     player.go("stop down")
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     player.go("stop left")
+                if event.key == pygame.K_k:
+                    player.go("stop juke down")
+                if event.key == pygame.K_j:
+                    player.go("stop juke up")
+                if event.key == pygame.K_i:
+                    player.go("stop spin up")
                           
-        
-        
         if timerWait < timerWaitMax:
             timerWait += 1
         else:
@@ -119,13 +130,13 @@ while True:
         for player in playersHitBalls:
             for ball in playersHitBalls[player]:
                 score.increaseScore(1)
-
-                
+        
+        
         for bully in ballsHitBalls:
             for victem in ballsHitBalls[bully]:
                 bully.collideBall(victem)
         
-        all.update(width, height, player.rect.center)
+        all.update(width, height)
         
         dirty = all.draw(screen)
         pygame.display.update(dirty)
@@ -140,7 +151,8 @@ while True:
         
         
         
-                
+        
+        
         
         
         
