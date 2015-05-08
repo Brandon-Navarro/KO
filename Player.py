@@ -3,7 +3,7 @@ from Ball import Ball
 
 class Player(Ball):
     def __init__(self, pos):
-        Ball.__init__(self, "images/Player/left1.png", [0,0], pos)
+        Ball.__init__(self, "images/Player/right1.png", [0,0], pos)
         self.upImages = [pygame.image.load("images/Player/up1.png"),
                          pygame.image.load("images/Player/up2.png"),
                          pygame.image.load("images/Player/up3.png"),
@@ -12,24 +12,36 @@ class Player(Ball):
                            pygame.image.load("images/Player/down2.png"),
                            pygame.image.load("images/Player/down3.png"),
                            pygame.image.load("images/Player/down4.png")]
-        self.leftImages =[pygame.image.load("images/Player/left1.png"),
+        self.leftImages = [pygame.image.load("images/Player/left1.png"),
                            pygame.image.load("images/Player/left2.png"),
                            pygame.image.load("images/Player/left3.png"),
                            pygame.image.load("images/Player/left4.png")]
         self.rightImages = [pygame.image.load("images/Player/right1.png"),
-                           pygame.image.load("images/Player/right2.png"),
-                           pygame.image.load("images/Player/right3.png"),
-                           pygame.image.load("images/Player/right4.png")]
-        self.facing = "up"
+                            pygame.image.load("images/Player/right2.png"),
+                            pygame.image.load("images/Player/right3.png"),
+                            pygame.image.load("images/Player/right4.png")]
+        self.jukedownImages = [pygame.image.load("images/Player/right1.png"),
+                            pygame.image.load("images/Player/right2.png"),
+                            pygame.image.load("images/Player/right3.png"),
+                            pygame.image.load("images/Player/right4.png")]
+        self.jukeupImages = [pygame.image.load("images/Player/right1.png"),
+                            pygame.image.load("images/Player/right2.png"),
+                            pygame.image.load("images/Player/right3.png"),
+                            pygame.image.load("images/Player/right4.png")]
+        self.spinupImages = [pygame.image.load("images/Player/right1.png"),
+                            pygame.image.load("images/Player/down1.png"),
+                            pygame.image.load("images/Player/left1.png"),
+                            pygame.image.load("images/Player/up1.png")]
+        self.facing = "right"
         self.changed = False
-        self.images = self.upImages
+        self.images = self.rightImages
         self.frame = 0
         self.maxFrame = len(self.images) - 1
         self.waitCount = 0
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = self.rect.center)
-        self.maxSpeed = 5
+        self.maxSpeed = 2.5
             
     def update(*args):
         self = args[0]
@@ -54,7 +66,7 @@ class Player(Ball):
     
     def animate(self):
         if self.waitCount < self.maxWait:
-            self.waitCount += 10
+            self.waitCount += 2
         else:
             self.waitCount = 0
             self.changed = True
@@ -72,7 +84,12 @@ class Player(Ball):
                 self.images = self.rightImages
             elif self.facing == "left":
                 self.images = self.leftImages
-            
+            elif self.facing == "juke down":
+                self.images = self.jukedownImages
+            elif self.facing == "juke up":
+                self.images = self.jukeupImages
+            elif self.facing == "spin up":
+                self.images = self.spinupImages
             self.image = self.images[self.frame]
     
     def go(self, direction):
@@ -102,4 +119,25 @@ class Player(Ball):
         elif direction == "stop left":
             self.speedx = 0
         
+        if direction == "juke down":
+            self.facing = "juke down"
+            self.changed = True
+            self.speedy = self.maxSpeed
+        elif direction == "stop juke down":
+            self.speedy = 0
 
+        if direction == "juke up":
+            self.facing = "juke up"
+            self.changed = True
+            self.speedy = -self.maxSpeed
+        elif direction == "stop juke up":
+            self.speedy = self.maxSpeed
+
+        if direction == "spin up":
+            self.facing = "spin up"
+            self.changed = True
+            self.speedy = -self.maxSpeed
+            self.speedx = self.maxSpeed
+        elif direction == "stop spin up":
+            self.speedy = 0
+            self.speedx = 0

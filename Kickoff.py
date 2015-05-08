@@ -8,6 +8,7 @@ from BackGround import BackGround
 from Level import Level
 from Block import Block
 from Opponent import Opponent
+#bn
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -99,6 +100,12 @@ while True:
                     player.go("down")
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     player.go("left")
+                if event.key == pygame.K_k:
+                    player.go("juke down")
+                if event.key == pygame.K_j:
+                    player.go("juke up")
+                if event.key == pygame.K_i:
+                    player.go("spin up")
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     player.go("stop up")
@@ -108,9 +115,13 @@ while True:
                     player.go("stop down")
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                     player.go("stop left")
+                if event.key == pygame.K_k:
+                    player.go("stop juke down")
+                if event.key == pygame.K_j:
+                    player.go("stop juke up")
+                if event.key == pygame.K_i:
+                    player.go("stop spin up")
                           
-        
-        
         if timerWait < timerWaitMax:
             timerWait += 1
         else:
@@ -136,7 +147,8 @@ while True:
         
         
         
-                
+        
+        
         
         
         
