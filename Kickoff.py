@@ -72,7 +72,12 @@ while True:
     BackGround("field.png")
     
     player = Player([width/6, height/2])
-    opps = [Opponent([width/1.5, height/2]), Opponent([width/1.5, height/1.5]), Opponent([width/3, height/.2]), Opponent([width/1.5, height/4]), Opponent([width/1.5, height/.25]), Opponent([width/1.5, height/5])]
+    opps = [Opponent([width/1.5, height/2]), 
+            Opponent([width/1.5, height/1.5]), 
+            Opponent([width/3, height/.2]), 
+            Opponent([width/1.5, height/4]), 
+            Opponent([width/1.5, height/.25]), 
+            Opponent([width/1.5, height/5])]
     
     level = Level(size, 50)
     level.loadLevel("1")
@@ -82,7 +87,7 @@ while True:
     timerWaitMax = 6
 
     score = Score([width-80, height-25], "Score: ", 36)
-    while run:
+    while run and len(players) == 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -115,24 +120,15 @@ while True:
         playersHitBalls = pygame.sprite.groupcollide(players, balls, False, True)
         ballsHitBalls = pygame.sprite.groupcollide(balls, balls, False, False)
         playersHitOpponents = pygame.sprite.groupcollide(players, opps, True, False)
-        
-        for player in playersHitBalls:
-            for ball in playersHitBalls[player]:
-                score.increaseScore(1)
 
-                
-        for bully in ballsHitBalls:
-            for victem in ballsHitBalls[bully]:
-                bully.collideBall(victem)
-        
+
         all.update(width, height, player.rect.center)
         
         dirty = all.draw(screen)
         pygame.display.update(dirty)
         pygame.display.flip()
         clock.tick(60)
-        
-        
+    run = False
         
         
         
