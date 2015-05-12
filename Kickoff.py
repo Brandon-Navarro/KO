@@ -8,7 +8,6 @@ from BackGround import BackGround
 from Level import Level
 from Block import Block
 from Opponent import Opponent
-#bn
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -73,12 +72,15 @@ while True:
     BackGround("field.png")
     
     player = Player([width/6, height/2])
-    opps = [Opponent([width/1.5, height/2]), 
-            Opponent([width/1.5, height/1.5]), 
-            Opponent([width/3, height/.2]), 
+    opps = [Opponent([width/1.5, height/1.5]),
+            Opponent([width/1.5, height/1.3]),
+            Opponent([width/1.5, height/1.7]),  
+            Opponent([width/1.5, height/1.1]), 
+            Opponent([width/1.5, height/2]), 
+            Opponent([width/1.5, height/3]), 
             Opponent([width/1.5, height/4]), 
-            Opponent([width/1.5, height/.25]), 
-            Opponent([width/1.5, height/5])]
+            Opponent([width/1.5, height/5]), 
+            Opponent([width/1.5, height/6])]
     
     level = Level(size, 50)
     level.loadLevel("1")

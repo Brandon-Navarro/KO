@@ -41,7 +41,7 @@ class Player(Ball):
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = self.rect.center)
-        self.maxSpeed = 2.5
+        self.maxSpeed = 4.5
             
     def update(*args):
         self = args[0]
