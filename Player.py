@@ -34,6 +34,7 @@ class Player(Ball):
                             pygame.image.load("images/Player/up1.png")]
         self.facing = "right"
         self.changed = False
+        self.touchdown = False
         self.images = self.rightImages
         self.frame = 0
         self.maxFrame = len(self.images) - 1
@@ -50,6 +51,8 @@ class Player(Ball):
         Ball.update(self, width, height)
         self.animate()
         self.changed = False
+        self.score(self.rect.center)
+        print self.rect.center
         
     def collideWall(self, width, height):
         if not self.didBounceX:
@@ -141,3 +144,7 @@ class Player(Ball):
         elif direction == "stop spin up":
             self.speedy = 0
             self.speedx = 0
+            
+    def score(self, pos):
+        if self.rect.center < 1084:
+            touchdown = True

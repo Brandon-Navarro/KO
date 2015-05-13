@@ -72,16 +72,11 @@ while True:
     BackGround("field.png")
     
     player = Player([width/6, height/2])
-    opps = [Opponent([width/1.5, height/1.5]),
-            Opponent([width/1.5, height/1.3]),
-            Opponent([width/1.5, height/1.7]),  
-            Opponent([width/1.5, height/1.1]), 
-            Opponent([width/1.5, height/2]), 
-            Opponent([width/1.5, height/3]), 
-            Opponent([width/1.5, height/4]), 
-            Opponent([width/1.5, height/5]), 
-            Opponent([width/1.5, height/6])]
-    
+    opps = [Opponent([width/1.5, height-500]),  
+            Opponent([width/1.5, height-400]),  
+            Opponent([width/1.5, height-300]), 
+            Opponent([width/1.5, height-200]),
+            Opponent([width/1.5, height-100])]
     level = Level(size, 50)
     level.loadLevel("1")
 
@@ -90,7 +85,7 @@ while True:
     timerWaitMax = 6
 
     score = Score([width-80, height-25], "Score: ", 36)
-    while run and len(players) == 1:
+    while run and len(players) == 1 and player.touchdown == False:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
