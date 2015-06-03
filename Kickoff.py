@@ -1,14 +1,18 @@
 import pygame, sys, random
-from Ball import Ball
-from Player import Player
-from HUD import Text
-from HUD import Score
+from Wall import Wall
+from Tile import Tile
+from StartBlock import StartBlock
+from EndBlock import EndBlock
 from Button import Button
-from BackGround import BackGround
 from Level import Level
-from Block import Block
-from Opponent import Opponent
+from BackGround import BackGround
+from Player import Player
+from HUD import Score
+from HUD import Text
+from Enemy import Enemy
 pygame.init()
+
+#64.35.192.215
 
 clock = pygame.time.Clock()
 
@@ -24,30 +28,35 @@ screen = pygame.display.set_mode(size)
 bgImage = pygame.image.load("field.png").convert()
 bgRect = bgImage.get_rect()
 
-balls = pygame.sprite.Group()
 players = pygame.sprite.Group()
-opps = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
 hudItems = pygame.sprite.Group()
 backgrounds = pygame.sprite.Group()
+startBlocks = pygame.sprite.Group()
+tiles = pygame.sprite.Group()
+backgrounds = pygame.sprite.Group()
+walls = pygame.sprite.Group()
+endBlocks = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
 all = pygame.sprite.OrderedUpdates()
 
-Ball.containers = (all, balls)
+Tile.containers = (all, tiles)
 Player.containers = (all, players)
-BackGround.containers = (all, backgrounds)
-Block.containers = (all, blocks)
+Enemy.containers = (all, enemies)
+StartBlock.containers = (all, startBlocks)
 Score.containers = (all, hudItems)
-Opponent.containers = (all, opps)
+BackGround.containers = (all, backgrounds)
+EndBlock.containers = (all, endBlocks)
+Wall.containers = (all, walls)
+
+
 
 
 run = False
 
 startButton = Button([width/2, height-300], 
-                     "images/Buttons/Start Base.png", 
-                     "images/Buttons/Start Clicked.png")
-                     
-                     
-                     
+                     "Resources/Objects/Game/Start Base.png", 
+                     "Resources/Objects/Game/Start Clicked.png")
 
 while True:
     while not run:
@@ -71,21 +80,19 @@ while True:
         
     BackGround("field.png")
     
-    player = Player([width/6, height/2])
-    opps = [Opponent([width/1.5, height-500]),  
-            Opponent([width/1.5, height-400]),  
-            Opponent([width/1.5, height-300]), 
-            Opponent([width/1.5, height-200]),
-            Opponent([width/1.5, height-100])]
-    level = Level(size, 50)
-    level.loadLevel("1")
+    level = Level(size, 30)
+    lev = 1
+    level.loadLevel(lev)
+    for monsterPos in level.monsterList:
+        Enemy(monsterPos,[random.randint(-2,2),random.randint(-2,2)])
+    player = Player(startBlocks.sprites()[0].rect.center)
 
     timer = Score([80, height - 25], "Time: ", 36)
     timerWait = 0
     timerWaitMax = 6
 
     score = Score([width-80, height-25], "Score: ", 36)
-    while run and len(players) == 1 and player.touchdown == False:
+    while run:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -93,6 +100,7 @@ while True:
                     player.go("up")
                 if event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     player.go("right")
+                    print "YAS"
                 if event.key == pygame.K_s or event.key == pygame.K_DOWN:
                     player.go("down")
                 if event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -125,9 +133,29 @@ while True:
             timerWait = 0
             timer.increaseScore(.1)
         
-        playersHitBalls = pygame.sprite.groupcollide(players, balls, False, True)
-        ballsHitBalls = pygame.sprite.groupcollide(balls, balls, False, False)
-        playersHitOpponents = pygame.sprite.groupcollide(players, opps, True, False)
+        playersHitenemies = pygame.sprite.groupcollide(players, enemies, True, False)
+        playersHitWalls = pygame.sprite.groupcollide(players, walls, False, False)
+        playersHitEnds = pygame.sprite.groupcollide(players, endBlocks, False, False)
+        enemiesHitWalls = pygame.sprite.groupcollide(enemies, walls, False, False)
+        
+        for player in playersHitWalls:
+            for wall in playersHitWalls[player]:
+                player.collideWall(wall)
+                
+        for enemy in enemiesHitWalls:
+            for wall in enemiesHitWalls[enemy]:
+                enemy.collideWall(wall)
+
+        for player in playersHitEnds:
+            for wall in playersHitEnds[player]:
+                for obj in all.sprites():
+                    obj.kill()
+                all.update(width, height)
+                lev += 1
+                level.loadLevel(lev)
+                for monsterPos in level.monsterList:
+                    Enemy(monsterPos)
+                player = Player(startBlocks.sprites()[0].rect.center)
 
 
         all.update(width, height, player.rect.center)
@@ -135,17 +163,5 @@ while True:
         dirty = all.draw(screen)
         pygame.display.update(dirty)
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick()
     run = False
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        

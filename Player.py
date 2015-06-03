@@ -1,37 +1,36 @@
 import pygame, math
-from Ball import Ball
 
-class Player(Ball):
-    def __init__(self, pos):
-        Ball.__init__(self, "images/Player/right1.png", [0,0], pos)
-        self.upImages = [pygame.image.load("images/Player/up1.png"),
-                         pygame.image.load("images/Player/up2.png"),
-                         pygame.image.load("images/Player/up3.png"),
-                         pygame.image.load("images/Player/up4.png")]
-        self.downImages = [pygame.image.load("images/Player/down1.png"),
-                           pygame.image.load("images/Player/down2.png"),
-                           pygame.image.load("images/Player/down3.png"),
-                           pygame.image.load("images/Player/down4.png")]
-        self.leftImages = [pygame.image.load("images/Player/left1.png"),
-                           pygame.image.load("images/Player/left2.png"),
-                           pygame.image.load("images/Player/left3.png"),
-                           pygame.image.load("images/Player/left4.png")]
-        self.rightImages = [pygame.image.load("images/Player/right1.png"),
-                            pygame.image.load("images/Player/right2.png"),
-                            pygame.image.load("images/Player/right3.png"),
-                            pygame.image.load("images/Player/right4.png")]
-        self.jukedownImages = [pygame.image.load("images/Player/right1.png"),
-                            pygame.image.load("images/Player/right2.png"),
-                            pygame.image.load("images/Player/right3.png"),
-                            pygame.image.load("images/Player/right4.png")]
-        self.jukeupImages = [pygame.image.load("images/Player/right1.png"),
-                            pygame.image.load("images/Player/right2.png"),
-                            pygame.image.load("images/Player/right3.png"),
-                            pygame.image.load("images/Player/right4.png")]
-        self.spinupImages = [pygame.image.load("images/Player/right1.png"),
-                            pygame.image.load("images/Player/down1.png"),
-                            pygame.image.load("images/Player/left1.png"),
-                            pygame.image.load("images/Player/up1.png")]
+class Player(pygame.sprite.Sprite):
+    def __init__(self, pos):  
+        pygame.sprite.Sprite.__init__(self, self.containers)  
+        self.upImages = [pygame.image.load("Resources/Objects/Player/up1.png"),
+                         pygame.image.load("Resources/Objects/Player/up2.png"),
+                         pygame.image.load("Resources/Objects/Player/up3.png"),
+                         pygame.image.load("Resources/Objects/Player/up4.png")]
+        self.downImages = [pygame.image.load("Resources/Objects/Player/down1.png"),
+                           pygame.image.load("Resources/Objects/Player/down2.png"),
+                           pygame.image.load("Resources/Objects/Player/down3.png"),
+                           pygame.image.load("Resources/Objects/Player/down4.png")]
+        self.leftImages = [pygame.image.load("Resources/Objects/Player/left1.png"),
+                           pygame.image.load("Resources/Objects/Player/left2.png"),
+                           pygame.image.load("Resources/Objects/Player/left3.png"),
+                           pygame.image.load("Resources/Objects/Player/left4.png")]
+        self.rightImages = [pygame.image.load("Resources/Objects/Player/right1.png"),
+                            pygame.image.load("Resources/Objects/Player/right2.png"),
+                            pygame.image.load("Resources/Objects/Player/right3.png"),
+                            pygame.image.load("Resources/Objects/Player/right4.png")]
+        self.jukedownImages = [pygame.image.load("Resources/Objects/Player/right1.png"),
+                            pygame.image.load("Resources/Objects/Player/right2.png"),
+                            pygame.image.load("Resources/Objects/Player/right3.png"),
+                            pygame.image.load("Resources/Objects/Player/right4.png")]
+        self.jukeupImages = [pygame.image.load("Resources/Objects/Player/right1.png"),
+                            pygame.image.load("Resources/Objects/Player/right2.png"),
+                            pygame.image.load("Resources/Objects/Player/right3.png"),
+                            pygame.image.load("Resources/Objects/Player/right4.png")]
+        self.spinupImages = [pygame.image.load("Resources/Objects/Player/right1.png"),
+                            pygame.image.load("Resources/Objects/Player/down1.png"),
+                            pygame.image.load("Resources/Objects/Player/left1.png"),
+                            pygame.image.load("Resources/Objects/Player/up1.png")]
         self.facing = "right"
         self.changed = False
         self.touchdown = False
@@ -41,30 +40,46 @@ class Player(Ball):
         self.waitCount = 0
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
-        self.rect = self.image.get_rect(center = self.rect.center)
+        self.speedx = 0
+        self.speedy = 0
+        self.rect = self.image.get_rect(center = pos)
         self.maxSpeed = 4.5
             
     def update(*args):
         self = args[0]
         width = args[1]
         height = args[2]
-        Ball.update(self, width, height)
+        self.didBounceX = False
+        self.didBounceY = False
+        self.move()
+        self.collideEdge(width, height)
         self.animate()
         self.changed = False
-        self.score(self.rect.center)
-        print self.rect.center
         
-    def collideWall(self, width, height):
+    def move(self):
+        self.speed = [self.speedx, self.speedy]
+        self.rect = self.rect.move(self.speed)
+        
+    def collideWall(self, other):
+        #print "hitting"
+        if self.rect.right < other.rect.left or self.rect.left > other.rect.right:
+            self.speedx = 0
+            self.didBounceX = True
+        if self.rect.top < self.rect.bottom or self.rect.bottom > other.rect.top:
+            self.speedy = 0
+            self.didBounceY = True
+            
+    def collideEdge(self, width, height):
         if not self.didBounceX:
             #print "trying to hit Wall"
             if self.rect.left < 0 or self.rect.right > width:
-                self.speedx = 0
                 self.didBounceX = True
+                self.speedx = 0
                 #print "hit xWall"
         if not self.didBounceY:
             if self.rect.top < 0 or self.rect.bottom > height:
-                self.speedy = 0
                 self.didBounceY = True
+                self.speedx = 0
                 #print "hit xWall"
     
     def animate(self):
