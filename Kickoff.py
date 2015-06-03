@@ -12,8 +12,8 @@ pygame.init()
 
 clock = pygame.time.Clock()
 
-width = 1229
-height = 577
+width = 675
+height = 650
 size = width, height
 
 
@@ -21,15 +21,16 @@ bgColor = r,g,b = 0, 0, 10
 
 screen = pygame.display.set_mode(size)
 
-bgImage = pygame.image.load("field.png").convert()
+bgImage = pygame.image.load("field1.png").convert()
 bgRect = bgImage.get_rect()
 
 balls = pygame.sprite.Group()
 players = pygame.sprite.Group()
 opps = pygame.sprite.Group()
 hudItems = pygame.sprite.Group()
-backgrounds = pygame.sprite.Group()
+backgrou0nds = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
+score = pygame.sprite.Group()
 all = pygame.sprite.OrderedUpdates()
 
 Ball.containers = (all, balls)
@@ -69,14 +70,24 @@ while True:
         pygame.display.flip()
         clock.tick(60)
         
-    BackGround("field.png")
+    BackGround("field1.png")
     
     player = Player([width/6, height/2])
     opps = [Opponent([width/1.5, height-500]),  
             Opponent([width/1.5, height-400]),  
             Opponent([width/1.5, height-300]), 
             Opponent([width/1.5, height-200]),
-            Opponent([width/1.5, height-100])]
+            Opponent([width/1.5, height-100]),
+            Opponent([width/2, height-550]),  
+            Opponent([width/2, height-450]),  
+            Opponent([width/2, height-350]), 
+            Opponent([width/2, height-250]),
+            Opponent([width/2, height-150]),
+            Opponent([width/1.2, height-525]),  
+            Opponent([width/1.2, height-425]),  
+            Opponent([width/1.2, height-325]), 
+            Opponent([width/1.2, height-225]),
+            Opponent([width/1.2, height-125])]
     level = Level(size, 50)
     level.loadLevel("1")
 
@@ -132,16 +143,14 @@ while True:
 
         all.update(width, height, player.rect.center)
         
+        
         dirty = all.draw(screen)
         pygame.display.update(dirty)
         pygame.display.flip()
         clock.tick(60)
     run = False
         
-        
-        
-        
-        
+
         
         
         

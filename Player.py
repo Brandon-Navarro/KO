@@ -48,11 +48,12 @@ class Player(Ball):
         self = args[0]
         width = args[1]
         height = args[2]
+        playerPos = args[3]
         Ball.update(self, width, height)
         self.animate()
         self.changed = False
-        self.score(self.rect.center)
-        print self.rect.center
+        self.score(playerPos)
+        
         
     def collideWall(self, width, height):
         if not self.didBounceX:
@@ -146,5 +147,5 @@ class Player(Ball):
             self.speedx = 0
             
     def score(self, pos):
-        if self.rect.center < 1084:
+        if self.rect.center[0] > 1084:
             touchdown = True
