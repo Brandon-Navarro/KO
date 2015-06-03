@@ -38,6 +38,7 @@ backgrounds = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 endBlocks = pygame.sprite.Group()
 blocks = pygame.sprite.Group()
+score = pygame.sprite.Group()
 all = pygame.sprite.OrderedUpdates()
 
 Tile.containers = (all, tiles)
@@ -159,6 +160,7 @@ while True:
 
 
         all.update(width, height, player.rect.center)
+        
         
         dirty = all.draw(screen)
         pygame.display.update(dirty)

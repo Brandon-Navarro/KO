@@ -43,7 +43,8 @@ class Opponent(Ball):
         self.animate()
         self.facePlayer(playerPos)
         self.changed = False
-        
+       
+       
     def facePlayer(self, pt):
         xdiff = pt[0] - self.rect.center[0]
         ydiff = pt[1] - self.rect.center[1]
