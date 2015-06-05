@@ -9,15 +9,15 @@ from BackGround import BackGround
 from Player import Player
 from HUD import Score
 from HUD import Text
-from Enemy import Enemy
+from enemy2 import Enemy
 pygame.init()
 
 #64.35.192.215
 
 clock = pygame.time.Clock()
 
-width = 1229
-height = 577
+width = 731
+height = 669
 size = width, height
 
 
@@ -25,7 +25,7 @@ bgColor = r,g,b = 0, 0, 10
 
 screen = pygame.display.set_mode(size)
 
-bgImage = pygame.image.load("field.png").convert()
+bgImage = pygame.image.load("field1.png").convert()
 bgRect = bgImage.get_rect()
 
 players = pygame.sprite.Group()
@@ -79,7 +79,7 @@ while True:
         pygame.display.flip()
         clock.tick(60)
         
-    BackGround("field.png")
+    BackGround("field1.png")
     
     level = Level(size, 30)
     lev = 1
@@ -152,6 +152,7 @@ while True:
                 for obj in all.sprites():
                     obj.kill()
                 all.update(width, height)
+                BackGround("field2.png")
                 lev += 1
                 level.loadLevel(lev)
                 for monsterPos in level.monsterList:
