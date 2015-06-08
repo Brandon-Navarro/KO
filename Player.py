@@ -43,7 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.speedx = 0
         self.speedy = 0
         self.rect = self.image.get_rect(center = pos)
-        self.maxSpeed = 4.5
+        self.maxSpeed = 6
             
     def update(*args):
         self = args[0]

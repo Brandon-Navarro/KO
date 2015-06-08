@@ -20,10 +20,10 @@ class Enemy(pygame.sprite.Sprite):
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = pos)
-        self.maxSpeed = 2.8
+        self.maxSpeed = 3
         self.kind = "zombie"
         self.speedx = speed[0]
-        self.speedy = speed[1]
+        self.speedy = 0
         self.speed = [self.speedx, self.speedy]
         
     def update(*args):
@@ -32,8 +32,13 @@ class Enemy(pygame.sprite.Sprite):
         height = args[2]
         playerPos = args[3]
         self.animate()
+        self.move()
         self.facePlayer(playerPos)
         self.changed = False
+        
+    def move(self):
+        self.speed = [self.speedx, self.speedy]
+        self.rect = self.rect.move(self.speed)
         
     def facePlayer(self, pt):
         xdiff = pt[0] - self.rect.center[0]
@@ -45,7 +50,7 @@ class Enemy(pygame.sprite.Sprite):
             self.speedx = -self.maxSpeed
         else:
             self.speedx = 0
-                
+        self.move()
         
     def collideWall(self, other):
         #print "hitting"

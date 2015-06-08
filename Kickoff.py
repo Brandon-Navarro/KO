@@ -9,7 +9,7 @@ from BackGround import BackGround
 from Player import Player
 from HUD import Score
 from HUD import Text
-from enemy2 import Enemy
+from Enemy import Enemy
 pygame.init()
 
 #64.35.192.215
@@ -93,7 +93,7 @@ while True:
     timerWaitMax = 6
 
     score = Score([width-80, height-25], "Score: ", 36)
-    while run:
+    while run and len(players) == 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
             if event.type == pygame.KEYDOWN:
@@ -156,7 +156,7 @@ while True:
                 lev += 1
                 level.loadLevel(lev)
                 for monsterPos in level.monsterList:
-                    Enemy(monsterPos)
+                    Enemy(monsterPos, [random.randint(-2,2),random.randint(-2,2)])
                 player = Player(startBlocks.sprites()[0].rect.center)
 
 
