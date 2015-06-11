@@ -12,7 +12,6 @@ from HUD import Text
 from Enemy import Enemy
 pygame.init()
 
-#64.35.192.215
 
 clock = pygame.time.Clock()
 
@@ -151,6 +150,7 @@ while True:
             for wall in playersHitEnds[player]:
                 for obj in all.sprites():
                     obj.kill()
+                print len(all.sprites())
                 all.update(width, height)
                 BackGround("field2.png")
                 lev += 1

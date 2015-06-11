@@ -16,7 +16,8 @@ class Level():
     def loadLevel(self, level):
         self.level = level
         levelFile = "Resources/Maps/level" + str(level) + ".lvl"
-        
+        self.monsterList = []
+
         f = open(levelFile, "r")
         lines = f.readlines()
         f.close()

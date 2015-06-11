@@ -20,7 +20,7 @@ class Enemy(pygame.sprite.Sprite):
         self.maxWait = 60*.25
         self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = pos)
-        self.maxSpeed = 3
+        self.maxSpeed = 2
         self.kind = "zombie"
         self.speedx = speed[0]
         self.speedy = 0
